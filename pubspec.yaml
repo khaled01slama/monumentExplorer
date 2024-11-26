@@ -1,0 +1,42 @@
+name: explorer
+description: "A new Flutter project."
+
+# Prevent accidental publishing
+publish_to: 'none'
+
+# Application version
+version: 1.0.0+1
+
+# Dart SDK version
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+# Dependencies for your project
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.2
+  geolocator: ^9.0.2
+  image_picker: ^0.8.5+3
+  cupertino_icons: ^1.0.5
+  camera: ^0.10.0+1
+
+# Development dependencies
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+
+# Flutter-specific configurations
+flutter:
+  uses-material-design: true
+
+  # Declaring assets
+  assets:
+    - assets/pisa.jpg
+    - assets/chateau.jpg
+    - assets/eiffel.jpg
+    - assets/eljam.jpg
+    - assets/liber.jpg
+    - assets/pyramid.jpg
+    - assets/statuts.jpg
