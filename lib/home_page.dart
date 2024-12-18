@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:camera/camera.dart';
+import 'monument_list_screen.dart'; // Import MonumentListScreen
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -19,27 +22,22 @@ class _HomePageState extends State<HomePage> {
     _initializeCamera();
   }
 
-
   Future<void> _getLocation() async {
     bool serviceEnabled;
     LocationPermission permission;
 
-
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
-      // Location services are not enabled, show error
       setState(() {
         _currentLocation = "Location services are disabled.";
       });
       return;
     }
 
-
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
-
         setState(() {
           _currentLocation = "Location permission denied.";
         });
@@ -48,7 +46,6 @@ class _HomePageState extends State<HomePage> {
     }
 
     if (permission == LocationPermission.deniedForever) {
-
       setState(() {
         _currentLocation = "Location permissions are permanently denied.";
       });
@@ -69,7 +66,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-
   Future<void> _initializeCamera() async {
     final cameras = await availableCameras();
     setState(() {
@@ -82,7 +78,6 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-
   @override
   void dispose() {
     _cameraController?.dispose();
@@ -94,20 +89,17 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Stack(
         children: [
-
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/eiffel.jpg'), // Replace with your image
                 fit: BoxFit.cover,
               ),
             ),
           ),
-          // Overlay Content
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-
               Padding(
                 padding: const EdgeInsets.only(top: 60.0, left: 20.0),
                 child: Align(
@@ -115,13 +107,13 @@ class _HomePageState extends State<HomePage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.location_on,
                         color: Colors.black,
                         size: 30,
                       ),
-                      SizedBox(height: 10),
-                      Text(
+                      const SizedBox(height: 10),
+                      const Text(
                         'Hi, Nice to meet you in',
                         style: TextStyle(
                           fontSize: 24,
@@ -129,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.black,
                         ),
                       ),
-                      Text(
+                      const Text(
                         'Monument Explorer!',
                         style: TextStyle(
                           fontSize: 28,
@@ -137,11 +129,10 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.black,
                         ),
                       ),
-                      SizedBox(height: 10),
-                      // Display location or loading text
+                      const SizedBox(height: 10),
                       Text(
                         _currentLocation ?? "Fetching your location...",
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                           color: Colors.black,
                         ),
@@ -150,11 +141,10 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: _cameras == null || _cameras!.isEmpty
-                    ? CircularProgressIndicator()
+                    ? const CircularProgressIndicator()
                     : Column(
                   children: [
                     _cameraController!.value.isInitialized
@@ -163,21 +153,18 @@ class _HomePageState extends State<HomePage> {
                       child: CameraPreview(_cameraController!),
                     )
                         : Container(),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
                         if (_cameraController != null &&
                             _cameraController!.value.isInitialized) {
-                          XFile picture = await _cameraController!
-                              .takePicture();
-
+                          XFile picture = await _cameraController!.takePicture();
                         }
                       },
-                      child: Text('Capture Image'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.purple,
                         foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           vertical: 15.0,
                           horizontal: 20.0,
                         ),
@@ -185,24 +172,29 @@ class _HomePageState extends State<HomePage> {
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                       ),
+                      child: const Text('Capture Image'),
                     ),
                   ],
                 ),
               ),
-
               Padding(
                 padding: const EdgeInsets.only(bottom: 50.0),
                 child: Column(
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/monuments');
+                        // Navigate to the MonumentListScreen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MonumentListScreen(),
+                          ),
+                        );
                       },
-                      child: Text('Navigate to Monuments'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.purple,
                         foregroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                           vertical: 15.0,
                           horizontal: 20.0,
                         ),
@@ -210,6 +202,7 @@ class _HomePageState extends State<HomePage> {
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                       ),
+                      child: const Text('Navigate to Monument List'),
                     ),
                   ],
                 ),
